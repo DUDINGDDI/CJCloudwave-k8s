@@ -1,19 +1,26 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: ReplicaSet
 metadata:
-  name: goapp-rc
+  name: frontend
+  labels:
+    app: guestbook
+    tier: frontend
 spec:
+  # modify replicas according to your case
   replicas: 5
   selector:
-    app: goapp-pod
+    matchLabels:
+      tier: frontend
+    matchExpressions:
+      - {key: env, operator: In, values: [prod]}
+      - {key: priority, operator: NotIn, values: [low]}
   template:
     metadata:
-      name: goapp
       labels:
-        app: goapp-pod
+        tier: frontend
+        env: prod
+        priority: high
     spec:
       containers:
-        - name: goapp-container
-          image: dangtong/goapp
-          ports:
-            - containerPort: 8080
+      - name: php-redis
+        image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5
