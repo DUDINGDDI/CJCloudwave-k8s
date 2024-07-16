@@ -1,0 +1,6 @@
+metadata:
+  name: nginx
+spec:
+  containers:
+    ports:
+    - containerPort: 80

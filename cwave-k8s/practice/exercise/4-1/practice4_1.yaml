@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goapp-pod-memhigh
+  labels:
+    name: goapp-pod-memhigh
+    env: dev
+spec:
+  nodeSelector:
+    memsize: "high"
+  containers:
+  - name: goapp-pod-memhigh
+    image: bitnami/apache
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 3306
